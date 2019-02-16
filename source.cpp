@@ -13,6 +13,15 @@ void print_int_array(int** array, int n, int m)
     }
 }
 
+void print_int_line(int* array, int n)
+{
+    printf("\n");
+    for (int i = 0; i < n; i++) {
+		printf("%4d", array[i]);
+    }
+	printf("\n");
+}
+
 //put after scanf
 void clean_stdin()
 {
@@ -135,6 +144,88 @@ void tournament()
 
 void merge()
 {
+	void print_int_line(int*, int);
+    int n, m, c1, c2 = 0, c3 = 0;
+
+    printf("[>] Enter matrix A length: ");
+    scanf("%d", &n);
+	
+    int* A = new int[n];
+
+    printf("[>] Enter matrix A: \n");
+    for (int i = 0; i < n; i++) {
+		scanf("%d", &A[i]);
+    }
+	
+	
+	printf("[>] Enter matrix B length: ");
+    scanf("%d", &m);
+	
+    int* B = new int[m];
+	
+    printf("[>] Enter matrix B: \n");
+    for (int i = 0; i < m; i++) {
+		scanf("%d", &B[i]);
+    }
+	
+	int* X = new int[m+n];
+	int* C = new int[m+n];
+	int* D = new int[m+n];
+	
+	//creating united array
+	for (int i = 0; i < n; i++) {
+		X[i]=A[i];
+    }
+	
+	c1 = n;
+	for (int i = 0; i < m; i++){
+		int z = 0;
+		for (int j = 0; j < n; j++){
+			if (B[i] == A[j]){
+				z = 1;
+				break;
+			}
+		}
+		if (z == 0){
+			X[c1++] = B[i];
+		}
+	}
+	
+	//sort united
+    for (int i = c1 - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+            if (X[j] > X[j+1]) {
+                int temp = X[j];
+                X[j] = X[j+1];
+                X[j+1] = temp;
+            }
+        }
+    }
+	
+	//divide between two arrays
+	for (int i = 0; i < c1; i++){
+		int z = 0;
+		for (int j = 0; j < n; j++){
+			if (X[i] == A[j]){
+				z++;
+				break;
+			}
+		}
+		for (int j = 0; j < m; j++){
+			if (X[i] == B[j]){
+				z++;
+				break;
+			}
+		}
+		if (z == 2){
+			C[c2++] = X[i];
+		} else {
+			D[c3++] = X[i];
+		}
+	}
+	
+	print_int_line(C, c2);
+	print_int_line(D, c3);
 }
 
 void bit()
