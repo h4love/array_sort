@@ -2,6 +2,50 @@
 
 #include <stdio.h>
 
+void sort_square(int* matrix, int size, int type)
+{
+	for (int i = size - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+			switch (type){
+			case 0:
+				if (matrix[j] < matrix[j+1]) {
+					int temp = matrix[j];
+					matrix[j] = matrix[j+1];
+					matrix[j+1] = temp;
+				}
+			case 1:
+				if (matrix[j] > matrix[j+1]) {
+					int temp = matrix[j];
+					matrix[j] = matrix[j+1];
+					matrix[j+1] = temp;
+				}
+			}
+            
+        }
+    }
+}
+
+int** create_square(n){
+	res = new int*[n];
+    for (int i = 0; i < n; i++) {
+        res[i] = new int[n];
+    }
+	
+	return res;
+}
+
+void input_square(int** matrix,int n)
+{
+	for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            scanf("%d", &matrix[i][j]);
+            if (i == j) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
 void print_int_array(int** array, int n, int m)
 {
     printf("\n");
@@ -79,6 +123,8 @@ int main()
 
 void tournament()
 {
+	int** create_square(int);
+	void input_square(int**, int);
     void print_int_array(int**, int, int);
     int n;
 
@@ -86,21 +132,11 @@ void tournament()
     scanf("%d", &n);
 
     //create matrix
-    int** matrix = new int*[n];
-    for (int i = 0; i < n; i++) {
-        matrix[i] = new int[n];
-    }
-
+    int** matrix = create_square(n);
+	
     //matrix input
     printf("[>] Enter matrix: \n");
-    for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            scanf("%d", &matrix[i][j]);
-            if (i == j) {
-                matrix[i][j] = 0;
-            }
-        }
-    }
+	input_square(matrix, n);
 
     //calculate team scores
     for (int i = 0; i < n; i++) {
@@ -144,6 +180,7 @@ void tournament()
 
 void merge()
 {
+	void sort_square(int*, int, int);
 	void print_int_line(int*, int);
     int n, m, c1, c2 = 0, c3 = 0;
 
@@ -156,7 +193,6 @@ void merge()
     for (int i = 0; i < n; i++) {
 		scanf("%d", &A[i]);
     }
-	
 	
 	printf("[>] Enter matrix B length: ");
     scanf("%d", &m);
@@ -192,15 +228,7 @@ void merge()
 	}
 	
 	//sort united
-    for (int i = c1 - 1; i > 0; i--) {
-        for (int j = 0; j < i; j++) {
-            if (X[j] > X[j+1]) {
-                int temp = X[j];
-                X[j] = X[j+1];
-                X[j+1] = temp;
-            }
-        }
-    }
+    sort_square(X, c1, 1);
 	
 	//divide between two arrays
 	for (int i = 0; i < c1; i++){
@@ -224,14 +252,83 @@ void merge()
 		}
 	}
 	
+	printf("Array C(size = %d):",c2);
 	print_int_line(C, c2);
+	printf("Array D(size = %d):",c3);
 	print_int_line(D, c3);
+	
 }
 
 void bit()
 {
+	
 }
 
 void triangle()
 {
+	void print_int_array(int**, int, int);
+    int n;
+
+    printf("[>] Enter matrix length: ");
+    scanf("%d", &n);
+
+    //create matrix
+    int** matrix = create_square(n);
+
+    //matrix input
+    input_square(matrix, n);
+	
+	for (int i = n - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+			int l1 = 0, x1 = 0, l2 = 0, x2 = 0, temp;
+            for (int k = 0; k < n; k++){
+				if ((matrix[k][j] == 0) && (x1 == 0)){
+					l1 += 1;
+				} else {
+					x1 = 1;
+				}
+				if ((matrix[k][j+1] == 0) && (x2 == 0)){
+					l2 += 1;
+				} else {
+					x2 = 1;
+				}
+			}
+			if (l1 < l2) {
+				for (int k = 0; k < n; k++){
+					temp = matrix[k][j];
+					matrix[k][j] = matrix[k][j+1];
+					matrix[k][j+1] = temp;
+				}
+			}
+        }
+    }
+	
+	print_int_array(matrix, n, n);
+	
+	for (int i = n - 1; i > 0; i--) {
+        for (int j = 0; j < i; j++) {
+			int l1 = 0, x1 = 0, l2 = 0, x2 = 0, temp;
+            for (int k = 0; k < n; k++){
+				if ((matrix[j][k] == 0) && (x1 == 0)){
+					l1 += 1;
+				} else {
+					x1 = 1;
+				}
+				if ((matrix[j+1][k] == 0) && (x2 == 0)){
+					l2 += 1;
+				} else {
+					x2 = 1;
+				}
+			}
+			if (l1 > l2) {
+				for (int k = 0; k < n; k++){
+					temp = matrix[j][k];
+					matrix[j][k] = matrix[j+1][k];
+					matrix[j+1][k] = temp;
+				}
+			}
+        }
+    }
+	
+	print_int_array(matrix, n, n);
 }
